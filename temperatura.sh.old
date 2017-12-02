@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Imposta i valori che verranno utiizzati per l'invio messaggio
+host=$(hostname -s)
+data=`date '+%d-%m %H:%M:%S'`
+titolo="Msg da $host. $data"
+
+
+# Raccoglie la temperatura dal comando inxi e rimuove il primo
+# carattere della stringa risultante che contiente "("
+temperatura=$(inxi -w | awk '{print $6}')
+temperatura=$(echo ${temperatura:1})
+
+echo $temperatura
+
+if [ $temperatura -lt 5 ]
+then
+/home/ggranata/Script/S60_notification_autoremote.sh "$titolo" "Attenti al ghiaccio. Temperatura=$temperatura"
+fi
